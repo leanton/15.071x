@@ -85,32 +85,3 @@ table(test$over50k, PredictCART2)
 
 # Plotting tree
 prp(CARTmodel2)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
