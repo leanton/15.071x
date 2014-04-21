@@ -69,6 +69,7 @@ gbmFit2 <- train(Happy ~ ., data = train,
 
 
 ################################################
+
 fitControl <- trainControl(method = "repeatedcv",
                            number = 10,
                            repeats = 10,
@@ -86,3 +87,11 @@ gbmFit3 <- train(Happy ~ ., data = train,
                  ## Specify which metric to optimize
                  metric = "ROC")
 gbmFit3
+
+
+################################################
+fitControl <- trainControl(method="repeatedcv", number = 10, repeats=3)
+gbmGrid <-  expand.grid(interaction.depth = c(1, 5, 9),
+                        n.trees = (1:30)*50,
+                        shrinkage = (1:10)*0.05)
+gbmFit2 <- train(Happy ~ ., data = train, method = "gbm", trControl = fitControl, tuneGrid = gbmGrid)

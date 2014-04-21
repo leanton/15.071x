@@ -115,51 +115,6 @@ predictTest3 = predict(trainLog3, newdata=test, type="response")
 submission = data.frame(UserID = test$UserID, Probability1 = predictTest3)
 write.csv(submission, "submissionLogVarsSkipped2.csv", row.names=FALSE)
 #################################################################################
-# Clustering data
-
-# Preprocessing data to make "Skipped"
-train = read.csv("train.csv")
-test = read.csv("test.csv")
-old.train = read.csv("train.csv")
-old.test = read.csv("test.csv")
-for (i in names(train)) {
-    levels(train[,i]) <- c(levels(train[,i]), "Skipped")
-    train[,i][train[,i] == ''] <- 'Skipped'
-    train[,i] = factor(train[,i])
-}
-for (i in names(test)) {
-    levels(test[,i]) <- c(levels(test[,i]), "Skipped")
-    test[,i][test[,i] == ''] <- 'Skipped'
-    test[,i] = factor(test[,i])
-}
-# Correcting train vars
-train$UserID = old.train$UserID
-train$YOB = old.train$YOB
-train$Happy = old.train$Happy
-train$votes = old.train$votes
-# Correcting test vars
-test$UserID = old.test$UserID
-test$YOB = old.test$YOB
-test$votes = old.test$votes
-
-cluster.train = train
-cluster.test = test
-# Removing unuseful data
-cluster.train$UserID = NULL
-cluster.train$Happy = NULL
-cluster.train$votes = NULL
-cluster.train$YOB = NULL
-
-cluster.test$UserID = NULL
-cluster.test$votes = NULL
-cluster.test$YOB = NULL
-
-
-distances = dist(cluster.train, method = "euclidean")
-# Hierarchical clustering
-trainClust = hclust(distances, method = "ward")
-plot(trainClust)
-
 
 
 

@@ -69,6 +69,7 @@ gbmFit2 <- train(Happy ~ ., data = train,
 
 
 ################################################
+
 fitControl <- trainControl(method = "repeatedcv",
                            number = 10,
                            repeats = 10,
@@ -86,3 +87,26 @@ gbmFit3 <- train(Happy ~ ., data = train,
                  ## Specify which metric to optimize
                  metric = "ROC")
 gbmFit3
+
+
+################################################
+fitControl <- trainControl(method="cv", number = 10)
+gbmGrid <-  expand.grid(interaction.depth = c(1, 2, 3),
+                        n.trees = (1:50)*100,
+                        shrinkage = 0.1)
+gbmFit2 <- train(Happy ~ ., data = train, method = "gbm", trControl = fitControl, tuneGrid = gbmGrid)
+
+################################################
+# Rpart
+library(rpart)
+fitControl = trainControl( method = "cv", number = 10 )
+cartGrid = expand.grid( .cp = (1:50)*0.002) 
+# Perform the cross validation
+rFit1 = train(Happy ~ ., data = train, method = "rpart", trControl = fitControl, tuneGrid = cartGrid)
+
+ldaFit1 = train(Happy ~ ., data = train, method = "lda", trControl = fitControl)
+
+mdaFit1 = train(Happy ~ ., data = train, method = "mda", trControl = fitControl)
+
+grid = expand.grid( nIter = (1:3)*1) 
+lboostFit1 = train(Happy ~ ., data = train, method = "LogitBoost", trControl = fitControl, tuneGrid=grid)
